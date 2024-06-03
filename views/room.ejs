@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= room.name %></title>
+  <link rel="stylesheet" href="/styles.css">
+  <script>
+    // Функция для проверки состояния комнаты
+    async function checkRoomStatus() {
+      const response = await fetch('/rooms/<%= room._id %>/status');
+      const data = await response.json();
+
+      if (data.status === 'playing') {
+        window.location.reload(); // Обновляем страницу, если игра началась
+      }
+    }
+
+    // Проверка состояния комнаты каждые 5 секунд
+    setInterval(checkRoomStatus, 5000);
+  </script>
+</head>
+<body>
+  <header>
+    <h1><%= room.name %></h1>
+    <nav>
+      <ul>
+        <li><a href="/">Rooms</a></li>
+        <li><a href="/statistics">Statistics</a></li>
+        <li><a href="/my-games">My Games</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <% if (waiting) { %>
+      <p>Ожидание второго игрока...</p>
+    <% } %>
+  </main>
+</body>
+</html>
