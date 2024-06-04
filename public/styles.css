@@ -1,0 +1,97 @@
+/* styles.css */
+
+/* Общие стили */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background: url("bg.png");
+    background-size: cover;
+    background-repeat: no-repeat; /* Запрещает повторение изображения */
+  }
+  
+  /* Стили для страницы входа */
+  h1 {
+    color: #ffffff;
+    text-align: center;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  input[type="text"],
+  input[type="password"] {
+    
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  input[type="submit"] {
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  /* Стили для страницы со списком комнат */
+  header {
+    background-color: none;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  nav ul {
+    list-style: none;
+    padding: 0;
+    color: aliceblue;
+  }
+  
+  nav ul li {
+    display: inline-block;
+    margin-right: 20px;
+  }
+  
+  /* Стили для списка комнат */
+  ul {
+    list-style: none;
+    padding: 0;
+    color: #FFFFFF;
+  }
+  
+  ul li {
+    margin-bottom: 10px;
+  }
+  
+  /* Стили для кнопки создания новой комнаты */
+  button[type="submit"] {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+
+  /* Стили для ссылок */
+a {
+    text-decoration: none;
+    color: #FFFFFF;
+    transition: color 0.3s ease; /* Плавное изменение цвета при наведении */
+}
+
+a:hover {
+    color: aliceblue; /* Цвет при наведении курсора */
+}
+
+p{
+    color: #FFFFFF;
+}

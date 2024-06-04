@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Game</title>
+</head>
+<body>
+  <header>
+    <h1>RSPLS Game</h1>
+    <nav>
+      <ul>
+        <li><a href="/">Rooms</a></li>
+        <li><a href="/statistics">Statistics</a></li>
+        <li><a href="/my-games">My Games</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <h2>Game between <%= game.player1.username %> and <%= game.player2.username %></h2>
+    <% if (game.status === 'in-progress') { %>
+      <form action="/games/<%= game._id %>/move" method="POST">
+        <button type="submit" name="move" value="rock">Rock</button>
+        <button type="submit" name="move" value="paper">Paper</button>
+        <button type="submit" name="move" value="scissors">Scissors</button>
+        <button type="submit" name="move" value="lizard">Lizard</button>
+        <button type="submit" name="move" value="spock">Spock</button>
+      </form>
+      <p>Waiting for both players to make a move...</p>
+    <% } else { %>
+      <div id="game-result">
+        <h3>Result: <%= game.result %></h3>
+        <% if (game.result === 'Draw') { %>
+          <p>It's a draw!</p>
+        <% } else if (game.result === 'Player 1 Wins') { %>
+          <% if (game.player1._id.equals(user._id)) { %>
+            <p>You Win!</p>
+          <% } else { %>
+            <p>You Lose!</p>
+          <% } %>
+        <% } else if (game.result === 'Player 2 Wins') { %>
+          <% if (game.player2._id.equals(user._id)) { %>
+            <p>You Win!</p>
+          <% } else { %>
+            <p>You Lose!</p>
+          <% } %>
+        <% } %>
+      </div>
+    <% } %>
+  </main>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    const roomId = "<%= game.room %>";
+
+    socket.emit('joinRoom', roomId);
+
+    socket.on('gameEnded', (data) => {
+      console.log(`Game Ended: ${data.result}`);
+      const resultContainer = document.getElementById('game-result');
+      if (resultContainer) {
+        resultContainer.innerHTML = `
+          <h3>Result: ${data.result}</h3>
+          ${data.result === 'Draw' ? '<p>It\'s a draw!</p>' : ''}
+          ${data.result === 'Player 1 Wins' ? '<p>${data.game.player1.equals(user._id) ? "You Win!" : "You Lose!"}</p>' : ''}
+          ${data.result === 'Player 2 Wins' ? '<p>${data.game.player2.equals(user._id) ? "You Win!" : "You Lose!"}</p>' : ''}
+        `;
+      } else {
+        alert(`Game Ended: ${data.result}`);
+        location.reload();
+      }
+    });
+
+    socket.on('connect_error', (error) => {
+      console.error('Connection error:', error);
+      alert('Connection error, please refresh the page.');
+    });
+
+    socket.on('disconnect', () => {
+      console.warn('Disconnected from server');
+      alert('Disconnected from server, please refresh the page.');
+    });
+  </script>
+</body>
+</html>
